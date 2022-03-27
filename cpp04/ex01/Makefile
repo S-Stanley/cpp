@@ -1,0 +1,29 @@
+NAME = poly
+SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp WrongCat.cpp WrongDog.cpp WrongAnimal.cpp Brain.cpp
+OBJS = $(SRCS:.cpp=.o)
+DEP = $(OBJS:.o=.d)
+RM = rm -rf
+FLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = $(FLAGS) -MMD
+CC = c++
+
+all: $(NAME)
+
+-include $(DEP)
+
+%.o: %.cpp Makefile
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJS)
+	$(CC) $(FLAGS) $^ -o $@
+
+clean:
+	$(RM) $(OBJS)
+	$(RM) $(DEP)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
